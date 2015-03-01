@@ -1,0 +1,53 @@
+# Translation of the WordPress plugin   by .
+# Copyright (C) 2010
+# This file is distributed under the same license as the  package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/admin-menu-tree-page-view\n"
+"POT-Creation-Date: 2010-11-14 17:57+0000\n"
+"PO-Revision-Date: 2013-12-08 14:20+0100\n"
+"Last-Translator: jelena kovacevic <jecajeca260@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+
+#: index.php:50
+msgid "Edit"
+msgstr "Editar"
+
+#: index.php:51
+msgid "View"
+msgstr "Ver"
+
+#: index.php:52
+msgid "Add new page here"
+msgstr "Adicionar nueva página aquí"
+
+#: index.php:53
+msgid "Add new page inside"
+msgstr "Adicionar nueva página dentro"
+
+#: index.php:54
+msgid "Untitled"
+msgstr "Sin Título"
+
+#: index.php:132
+msgid "Pages"
+msgstr "Páginas"
+
+#: index.php:134
+msgid "Search"
+msgstr "Buscar"
+
+#: index.php:136
+msgid "Reset search and show all pages"
+msgstr "Resetear la búsqueda y mostrar todas las páginas"
+
+#: index.php:194
+msgid "New page"
+msgstr "Nueva página"

@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Admin Menu Tree Page View v2.6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2013-02-09 09:36+0100\n"
+"Last-Translator: Andrea Bersi\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Dutch\n"
+"X-Poedit-Country: ITALIAN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#@ admin-menu-tree-page-view
+#: index.php:72
+#: index.php:245
+msgid "Edit"
+msgstr "Modifica"
+
+#@ admin-menu-tree-page-view
+#: index.php:73
+#: index.php:247
+msgid "View"
+msgstr "Visualizza"
+
+#@ admin-menu-tree-page-view
+#: index.php:74
+msgid "Add new page after"
+msgstr "Aggiungi pagina dopo"
+
+#@ admin-menu-tree-page-view
+#: index.php:75
+msgid "Add new page inside"
+msgstr "Aggiungi nuova sottopagina"
+
+#@ admin-menu-tree-page-view
+#: index.php:76
+msgid "Untitled"
+msgstr "Senza titolo"
+
+#@ admin-menu-tree-page-view
+#: index.php:249
+msgid "Add new page"
+msgstr "Aggiungi pagina"
+
+#@ admin-menu-tree-page-view
+#: index.php:250
+msgid "After"
+msgstr "Dopo"
+
+#@ admin-menu-tree-page-view
+#: index.php:252
+msgid "Inside"
+msgstr "Sottopagine"
+
+#@ admin-menu-tree-page-view
+#: index.php:254
+msgid "Post ID:"
+msgstr "Post ID:"
+
+#@ admin-menu-tree-page-view
+#: index.php:290
+msgid "Pages"
+msgstr "Pagine"
+
+#@ admin-menu-tree-page-view
+#: index.php:292
+msgid "Search"
+msgstr "Cerca"
+
+#@ admin-menu-tree-page-view
+#: index.php:294
+msgid "Reset search and show all pages"
+msgstr "Annulla ricerca e mostra tutto"
+
+#@ admin-menu-tree-page-view
+#: index.php:295
+msgid "No pages found"
+msgstr "Nessuna pagina trovata"
+

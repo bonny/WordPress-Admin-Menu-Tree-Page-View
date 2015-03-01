@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="jquery.ui.nestedSortable.js"></script>
+</head>
+<body>
+	
+	<ul class="sortable">
+		<li><div>Some content</div></li>
+		<li><div>Some content</div>
+			<ul>
+				<li><div>Some sub-item content</div></li>
+				<li><div>Some sub-item content</div></li>
+			</ul>
+		</li>
+		<li><div>Some content</div></li>
+	</ul>	
+	<script type="text/javascript">
+	
+		$(function() {
+			$("ul.sortable").nestedSortable({
+				listType: 'ul'
+			});
+		});
+	
+	</script>	
+</body>
+</html>
