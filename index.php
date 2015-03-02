@@ -121,24 +121,70 @@ class admin_menu_tree_page_view {
 
 }
 
-function admin_menu_tree_page_view_get_pages($args) {
+function admin_menu_tree_page_view_add_ancestor_recursive(&$pages){
+  foreach($pages as $p){
+    if(!isset($p->ancestors)){ // root page.
+      $p->ancestors = array();
+    }
 
-	$defaults = array(
-    	"post_type" => "page",
-		"parent" => "0",
-		"post_parent" => "0",
-		"numberposts" => "-1",
-		"orderby" => "menu_order",
-		"order" => "ASC",
-		"post_status" => "any",
-		"suppress_filters" => 0 // suppose to fix problems with WPML
-	);
-	$args = wp_parse_args( $args, $defaults );
+    if(!empty($p->children)){
+      foreach($p->children as $child){
+        $child->ancestors = $p->ancestors;
+        $child->ancestors[] = $p->ID;
 
-	// contains all page ids as keys and their parent as the val
-	$arr_all_pages_id_parent = admin_menu_tree_page_view::get_all_pages_id_parent();
+        admin_menu_tree_page_view_add_ancestor_recursive($p);
+      }
+    }
+  }
+}
 
-	$pages = get_posts($args);
+function admin_menu_tree_page_view_get_all_pages(){
+  global $wpdb;
+
+  $all_all_pages = $wpdb->get_results( "
+  SELECT
+  `ID`,
+  `post_title`,
+  (CASE `post_status` WHEN 'publish' THEN 1 ELSE 0 END) as 'post_status',
+  (CASE `post_password` WHEN '' THEN 0 ELSE 1 END) as 'post_password',
+  `post_parent`
+  
+  FROM $wpdb->posts WHERE `post_type` = 'page' AND `post_status` IN ('publish', 'draft') ORDER BY `menu_order`", OBJECT );
+
+  $pages_by_id = array();
+
+  foreach($all_all_pages as &$p){
+    $pages_by_id[$p->ID] = $p;
+  }
+
+  $root_pages = array();
+
+  foreach($all_all_pages as &$p){
+    if(!isset($pages_by_id[$p->post_parent])){
+      $root_pages[] = $p;
+
+      continue;
+    }
+
+    $parent = $pages_by_id[$p->post_parent];
+
+    if(!isset($parent->children)){
+      $parent->children = array();
+    }
+
+    $parent->children[] = $p;
+  }
+
+  admin_menu_tree_page_view_add_ancestor_recursive($root_pages);
+
+  return $root_pages;
+}
+
+function admin_menu_tree_page_view_get_pages($pages = NULL) {
+  if($pages == NULL){
+    $pages = admin_menu_tree_page_view_get_all_pages();
+  }
+
 	$output = "";
 	$str_child_output = "";
 	foreach ($pages as $one_page) {
@@ -153,11 +199,8 @@ function admin_menu_tree_page_view_get_pages($args) {
 		// so result is from 690 queries > 474 = 216 queries less. still many..
 		// from 474 to 259 = 215 less
 		// so total from 690 to 259 = 431 queries less! grrroooovy
-		if (in_array($one_page->ID, $arr_all_pages_id_parent)) {
-			$post_children = get_children(array(
-				"post_parent" => $one_page->ID,
-				"post_type" => "page"
-			));
+		if (!empty($one_page->children)) {
+			$post_children = $one_page->children;
 			$post_children_count = sizeof($post_children);
 			$title .= " <span class='child-count'>($post_children_count)</span>";
 		} else {
@@ -172,22 +215,19 @@ function admin_menu_tree_page_view_get_pages($args) {
 		if ($one_page->post_password) {
 			$status_span .= "<span class='admin-menu-tree-page-view-protected'></span>";
 		}
-		if ($one_page->post_status != "publish") {
-			$status_span .= "<span class='admin-menu-tree-page-view-status admin-menu-tree-page-view-status-{$one_page->post_status}'>".__(ucfirst($one_page->post_status))."</span>";
+		if ($one_page->post_status != 1) {
+      $status = get_post_status($one_page->ID);
+			$status_span .= "<span class='admin-menu-tree-page-view-status admin-menu-tree-page-view-status-" . $status . "'>".__(ucfirst($status))."</span>";
 		}
-
-		// add css if we have childs
-		$args_childs = $args;
-		$args_childs["parent"] = $one_page->ID;
-		$args_childs["post_parent"] = $one_page->ID;
-		$args_childs["child_of"] = $one_page->ID;
 
 		// can we run this only if the page actually has children? is there a property in the result of get_children for this?
 		// eh, you moron, we already got that info in $post_children_count!
 		// so result is from 690 queries > 474 = 216 queries less. still many..
 		$str_child_output = "";
 		if ($post_children_count>0) {
-			$str_child_output = admin_menu_tree_page_view_get_pages($args_childs);
+      $str_child_output .= "<ul class='admin-menu-tree-page-tree_childs'>";
+			$str_child_output .= admin_menu_tree_page_view_get_pages($one_page->children);
+      $str_child_output .= "</ul>";
 			$class .= " admin-menu-tree-page-view-has-childs";
 		}
 
@@ -278,11 +318,6 @@ function admin_menu_tree_page_view_get_pages($args) {
 		$output .= "</li>";
 	}
 
-	// if this is a child listing, add ul
-	if (isset($args["child_of"]) && $args["child_of"] && $output != "") {
-		$output = "<ul class='admin-menu-tree-page-tree_childs'>$output</ul>";
-	}
-
 	return $output;
 }
 
@@ -307,15 +342,7 @@ function admin_menu_tree_page_view_admin_menu() {
 			</li>
 		";
 
-	// get root items
-	$args = array(
-		"echo" => 0,
-		"sort_order" => "ASC",
-		"sort_column" => "menu_order",
-		"parent" => 0
-	);
-
-	$output .= admin_menu_tree_page_view_get_pages($args);
+	$output .= admin_menu_tree_page_view_get_pages();
 
 	// end our ul and add the a-tag that wp automatically will close
 	$output .= "
