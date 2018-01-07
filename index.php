@@ -3,7 +3,7 @@
 Plugin Name: Admin Menu Tree Page View
 Plugin URI: http://eskapism.se/code-playground/admin-menu-tree-page-view/
 Description: Get a tree view of all your pages directly in the admin menu. Search, edit, view and add pages - all with just one click away!
-Version: 2.6.9
+Version: 2.7
 Author: Pär Thernström
 Author URI: http://eskapism.se/
 License: GPL2
@@ -38,7 +38,7 @@ add_action('wp_ajax_admin_menu_tree_page_view_move_page', 'admin_menu_tree_page_
 
 function admin_menu_tree_page_view_admin_init() {
 
-	define( "admin_menu_tree_page_view_VERSION", "2.6.9" );
+	define( "admin_menu_tree_page_view_VERSION", "2.7" );
 	define( "admin_menu_tree_page_view_URL", WP_PLUGIN_URL . '/admin-menu-tree-page-view/' );
 	define( "admin_menu_tree_page_view_DIR", WP_PLUGIN_DIR . '/admin-menu-tree-page-view/' );
 
@@ -74,7 +74,9 @@ function admin_menu_tree_page_view_admin_init() {
 		"Add_new_page_here" => __("Add new page after", 'admin-menu-tree-page-view'),
 		"Add_new_page_inside" => __("Add new page inside", 'admin-menu-tree-page-view'),
 		"Untitled" => __("Untitled", 'admin-menu-tree-page-view'),
+		'nonce' => wp_create_nonce('admin-menu-tree-page-view')
 	);
+
 	wp_localize_script( "admin_menu_tree_page_view", 'amtpv_l10n', $oLocale);
 }
 
@@ -346,6 +348,8 @@ function admin_menu_tree_page_page() {
  */
 function admin_menu_tree_page_view_add_page() {
 
+	check_ajax_referer('admin-menu-tree-page-view', 'amtpv-nonce');
+
 	global $wpdb;
 
 	/*
@@ -480,6 +484,8 @@ function admin_menu_tree_page_view_add_page() {
 // move a post up or down
 // code from my other plugin cms tree page view
 function admin_menu_tree_page_view_move_page() {
+
+	check_ajax_referer('admin-menu-tree-page-view', 'amtpv-nonce');
 
 	/*
 	Array ( [action] => admin_menu_tree_page_view_move_page [post_to_update_id] => 567 [direction] => down )

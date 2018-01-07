@@ -1,11 +1,11 @@
 
 jQuery(function($) {
-	
+
 	// @todo: this is only needed for WordPress earlier than 3.2?
 	setTimeout(function() {
 		jQuery("#toplevel_page_admin-menu-tree-page-tree_main").addClass("wp-menu-open");
 	}, 100);
-		
+
 	// search/filter pages
 	$("li.admin-menu-tree-page-filter input").keyup(function(e) {
 		var ul = $(this).closest("ul.admin-menu-tree-page-tree");
@@ -23,7 +23,7 @@ jQuery(function($) {
 		}
 		ul.highlight(s);
 		hits.show();
-		
+
 		// hits can be childs of hidden li:s, so we must show the parents of the hits too
 		hits.each(function(i, elm) {
 			var parent = elm.parentNode;
@@ -34,7 +34,7 @@ jQuery(function($) {
 				parent.show();
 			}
 		});
-		
+
 		// if no hits: tell the user so we have less confusion. confusion is bad.
 		var nohits_div = ul.find("div.admin-menu-tree-page-filter-nohits");
 		if (hits.length === 0) {
@@ -42,7 +42,7 @@ jQuery(function($) {
 		} else {
 			nohits_div.hide();
 		}
-		
+
 	});
 
 	// clear/reset filter and show all pages again
@@ -55,7 +55,7 @@ jQuery(function($) {
 		ul.unhighlight();
 		ul.find("div.admin-menu-tree-page-filter-nohits").hide();
 	});
-	
+
 	// label = hide in and focus input
 	$("li.admin-menu-tree-page-filter label, li.admin-menu-tree-page-filter input").click(function() {
 		var $t = $(this);
@@ -64,23 +64,23 @@ jQuery(function($) {
 	});
 
 	var trees = jQuery("ul.admin-menu-tree-page-tree");
-	
+
 	// add links to expand/collapse
 	trees.find("li.admin-menu-tree-page-view-has-childs > div").after("<div class='admin-menu-tree-page-expand' title='Show/Hide child pages' />");
 	trees.on("click", "div.admin-menu-tree-page-expand", function(e) {
-		
+
 		e.preventDefault();
 		var $t = $(this);
 		var $li = $t.closest("li");
 		var $a = $li.find("a:first");
 		var $ul = $li.find("ul:first");
-		
+
 		var isOpen = false;
 		if ($ul.is(":visible")) {
 			$ul.slideUp(function() {
 				$li.addClass("admin-menu-tree-page-view-closed").removeClass("admin-menu-tree-page-view-opened");
 			});
-			
+
 		} else {
 			$ul.slideDown(function() {
 				$li.addClass("admin-menu-tree-page-view-opened").removeClass("admin-menu-tree-page-view-closed");
@@ -112,7 +112,7 @@ jQuery(function($) {
 		var popupdiv = li.find("div.amtpv-editpopup:first");
 		var linkwrap = li.find("div.amtpv-linkwrap:first");
 		//var popup_linkwrap = popupdiv.closest("div.amtpv-linkwrap");
-		
+
 		if (e.type == "mouseenter" || e.type == "mouseover") {
 
 			var ul = t.closest("ul.admin-menu-tree-page-tree");
@@ -125,7 +125,7 @@ jQuery(function($) {
 				popupdiv.addClass("amtpv-editpopup-hover");
 				linkwrap.addClass("amtpv-linkwrap-hover");
 			}
-			
+
 		} else if (e.type == "mouseleave" || e.type == "mouseout") {
 
 			// don't hide if related target is the shadow of the menu, aka #adminmenushadow
@@ -133,27 +133,27 @@ jQuery(function($) {
 			if (e.relatedTarget && e.relatedTarget.id == "adminmenushadow") {
 				do_hide = false;
 			}
-			
+
 			// also don't hide if wrap div has .amtpv-editpopup-is-working
 			if (linkwrap.hasClass("amtpv-editpopup-is-working")) {
 				do_hide = false;
 			}
-			
+
 			if (do_hide) {
 				popupdiv.removeClass("amtpv-editpopup-hover");
 				linkwrap.removeClass("amtpv-linkwrap-hover");
 			}
-			
+
 		}
 	});
-	
+
 	//
 	trees.on("mouseenter mouseleave", "div.amtpv-editpopup", function(e) {
 		var t = $(this);
 		var li = t.closest("li");
 		var popupdiv = li.find("div.amtpv-editpopup:first");
 		var linkwrap = li.find("div.amtpv-linkwrap:first");
-		
+
 		if (e.type == "mouseenter" || e.type == "mouseover") {
 			t.addClass("amtpv-editpopup-hover-hover");
 		} else if (e.type == "mouseleave" || e.type == "mouseout") {
@@ -163,7 +163,7 @@ jQuery(function($) {
 			}
 		}
 	});
-		
+
 	// edit/view links
 	trees.on("click", "div.amtpv-editpopup-edit, div.amtpv-editpopup-view", function(e) {
 
@@ -171,7 +171,7 @@ jQuery(function($) {
 		var t = $(this);
 		var link = t.data("link");
 		var new_win = false;
-		
+
 		if ( ($.client.os == "Mac" && (e.metaKey || e.shiftKey)) || ($.client.os != "Mac" && e.ctrlKey) ) {
 			new_win = true;
 		}
@@ -180,9 +180,9 @@ jQuery(function($) {
 		} else {
 			document.location = link;
 		}
-		
+
 	});
-	
+
 	// add links
 	trees.on("click", "div.amtpv-editpopup-add-after, div.amtpv-editpopup-add-inside", function(e) {
 
@@ -192,7 +192,7 @@ jQuery(function($) {
 		var popup_linkwrap = popup.closest("div.amtpv-linkwrap");
 		var editpopup_add = popup.find("div.amtpv-editpopup-add");
 		var editpopup_editview = popup.find("div.amtpv-editpopup-editview");
-		
+
 		// hide all divs
 		// @todo: should put all in one div, and hide just that one
 		popup.find("> div").hide();
@@ -204,10 +204,10 @@ jQuery(function($) {
 		if (t.hasClass("amtpv-editpopup-add-inside")) {
 			type = "inside";
 		}
-		
+
 		// remove possibly previous added add-stuff
 		popup.find("form.amtpv-editpopup-addpages").remove();
-		
+
 		var add_pages = $("<form />")
 			.addClass("amtpv-editpopup-addpages")
 			.insertAfter(editpopup_add)
@@ -227,10 +227,10 @@ jQuery(function($) {
 		add_pages.append( $("<div class='amtpv-editpopup-addpages-names'><label class='amtpv-editpopup-addpages-label'>Name(s)</label>") );
 		add_pages.append( $("<ul class='amtpv-editpopup-addpages-names-ul'><li><span></span><input class='amtpv-editpopup-addpages-name' type='text' value=''/></li></ul>") );
 		//add_pages.append( $("<div class='amtpv-editpopup-addpages-addpage'><a href='#'>+ page</a></div></div>"));
-		
+
 		add_pages.append( $("<div class='amtpv-editpopup-addpages-submit'><input type='submit' class='button-primary' value='Add' /> or <a href='#' class='amtpv-editpopup-addpages-cancel'>cancel</a></div>"));
 		add_pages.find(".amtpv-editpopup-addpages-name").focus();
-		
+
 		add_pages.find("ul.amtpv-editpopup-addpages-names-ul").sortable({
 			"xaxis": "y",
 			"containment": 'parent',
@@ -239,9 +239,9 @@ jQuery(function($) {
 			"handle": "span:first",
 			"placeholder": "ui-state-highlight"
 		});
-		
+
 		return;
-		
+
 	});
 
 	// add new page-link
@@ -252,7 +252,7 @@ jQuery(function($) {
 		t.parent().prev("ul.amtpv-editpopup-addpages-names-ul").append( newelm );
 		newelm.find("input").focus();
 	});
-	
+
 	// when typing in the input, add another input if we are at the last input
 	// this way we don't have to click that "add page" button. less clicks = more productive.
 	trees.on("keyup", "input.amtpv-editpopup-addpages-name", function(e) {
@@ -260,7 +260,7 @@ jQuery(function($) {
 		var t = $(this);
 		var ul = t.closest("ul");
 		var li = t.closest("li");
-		
+
 		// if this input is the last one, and we have entered something, add another one
 		var isLast = (li.index() == ul.find("li").length-1);
 		if (isLast && t.val() !== "") {
@@ -268,9 +268,9 @@ jQuery(function($) {
 			ul.append( newelm );
 			newelm.show();
 		}
-		
+
 	});
-	
+
 	// cancel-link
 	trees.on("click", "a.amtpv-editpopup-addpages-cancel", function(e) {
 
@@ -279,19 +279,19 @@ jQuery(function($) {
 		var t = $(this),
 			popup = t.closest("div.amtpv-editpopup"),
 			linkwrap = popup.closest("div.amtpv-linkwrap");
-		
+
 		popup.find(".amtpv-editpopup-addpages").hide().remove();
 		popup.find("> div").show();
-		
+
 		linkwrap.removeClass("amtpv-editpopup-is-working");
 	});
-	
+
 	// woho, add da pages!
 	trees.on("submit", "form.amtpv-editpopup-addpages", function(e) {
 		// fetch all .amtpv-editpopup-addpages-name for this popup
-		
+
 		e.preventDefault();
-		
+
 		var t = $(this);
 		var post_id = t.closest("div.amtpv-linkwrap").data("post-id");
 		var popup = t.closest("div.amtpv-editpopup");
@@ -304,7 +304,7 @@ jQuery(function($) {
 				arr_names.push( $(elm).val() );
 			}
 		});
-		
+
 		// we must at least have one name
 		// @todo: make this a bit better looking
 		if (arr_names.length === 0) {
@@ -313,21 +313,22 @@ jQuery(function($) {
 		}
 
 		popup.find("div.amtpv-editpopup-addpages-submit input").val("Adding...");
-		
+
 		// detect after or inside
 		// var type = popup.find(".amtpv-editpopup-addpages-type").val();
 		var type = popup.find("input[name=amtpv-editpopup-addpages-position]:checked").val();
-		
+
 		// post status
 		var post_status = popup.find("#amtpv-editpopup-addpages-publish-select").val();
-		
+
 		var data = {
 			"action": 'admin_menu_tree_page_view_add_page',
 			"pageID": post_id,
 			"type": type,
 			"page_titles": arr_names,
 			"post_type": "page",
-			"post_status": post_status
+			"post_status": post_status,
+			"amtpv-nonce": window.amtpv_l10n.nonce
 		};
 
 		jQuery.post(ajaxurl, data, function(response) {
@@ -347,7 +348,7 @@ jQuery(function($) {
 		});
 
 	});
-	
+
 	// make the tree sortable
 	$("ul.admin-menu-tree-page-tree, ul.admin-menu-tree-page-tree ul").sortable({
 		"axis": "y",
@@ -370,7 +371,7 @@ jQuery(function($) {
 			var li = $(ui.item);
 			var a = li.find("a:first");
 			var post_id = a.data("post-id");
-			
+
 			// check if we have a post above
 			var prev = li.prev();
 			var aboveOrNextItem;
@@ -386,7 +387,7 @@ jQuery(function($) {
 			}
 			// get id of above or below post
 			var aboveOrNextPostID = $(aboveOrNextItem).find("a:first").data("post-id");
-			
+
 			// flytt upp = start > update
 			// flytt ner = start < update
 			var startindex = li.data("startindex");
@@ -397,17 +398,18 @@ jQuery(function($) {
 			} else {
 				direction = "down";
 			}
-			
+
 			// now we have all we need, tell the server to do the move
 			$.post(ajaxurl, {
 				"action": "admin_menu_tree_page_view_move_page",
 				"post_to_update_id": post_id,
 				"direction": direction,
-				"aboveOrNextPostID": aboveOrNextPostID
+				"aboveOrNextPostID": aboveOrNextPostID,
+				"amtpv-nonce": window.amtpv_l10n.nonce
 			}, function(data) {
 				// console.log(data);
 			});
-			
+
 		}
 	});
 
