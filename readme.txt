@@ -60,7 +60,7 @@ Now the tree with the pages will be visible in the admin menu to the left.
 
 == Changelog ==
 
-= 2.7 =
+= 2.7 (January 2018) =
 - Add nonce check when moving page and adding new pages.
 
 = 2.6.9 =
