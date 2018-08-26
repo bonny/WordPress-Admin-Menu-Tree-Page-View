@@ -1,4 +1,5 @@
 <?php
+
 /*
 Plugin Name: Admin Menu Tree Page View
 Plugin URI: http://eskapism.se/code-playground/admin-menu-tree-page-view/
@@ -341,14 +342,19 @@ function admin_menu_tree_page_page() {
 
 
 
+
 /**
  * Code from plugin CMS Tree Page View
  * http://wordpress.org/extend/plugins/cms-tree-page-view/
  * Used with permission! :)
  */
-function admin_menu_tree_page_view_add_page() {
+function admin_menu_tree_page_view_add_page ( ) {
 
 	check_ajax_referer('admin-menu-tree-page-view', 'amtpv-nonce');
+
+	if ( ! current_user_can( 'edit_pages' ) ) {
+	  wp_die( -1 );
+	}
 
 	global $wpdb;
 
@@ -486,6 +492,10 @@ function admin_menu_tree_page_view_add_page() {
 function admin_menu_tree_page_view_move_page() {
 
 	check_ajax_referer('admin-menu-tree-page-view', 'amtpv-nonce');
+
+	if ( ! current_user_can( 'edit_pages' ) ) {
+	  wp_die( -1 );
+	}
 
 	/*
 	Array ( [action] => admin_menu_tree_page_view_move_page [post_to_update_id] => 567 [direction] => down )
