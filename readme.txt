@@ -4,7 +4,7 @@ Donate link: http://eskapism.se/sida/donate/
 Tags: admin, page, pages, page tree, hierarchy, cms, tree, view, admin menu, menu, change order, drag and drop
 Requires at least: 3.8
 Tested up to: 4.7
-Stable tag: 2.7
+Stable tag: 2.7.1
 
 Get a tree view of all your pages directly in the admin menu. Search, edit, view, re-order/sort and add pages – all is just one click away!
 
@@ -59,6 +59,9 @@ Now the tree with the pages will be visible in the admin menu to the left.
 
 
 == Changelog ==
+
+= 2.7.1 (August 2018) =
+- Don't only rely on nonce when adding or moving pages, also check current user capability.
 
 = 2.7 (January 2018) =
 - Add nonce check when moving page and adding new pages.
