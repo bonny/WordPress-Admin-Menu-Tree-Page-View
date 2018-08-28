@@ -339,9 +339,9 @@ jQuery(function($) {
 				//}
 				//return;
 				if (new_win) {
-					window.open(response);
+					window.open(window.atob(response));
 				} else {
-					document.location = response;
+					document.location = window.atob(response);
 				}
 
 			}
