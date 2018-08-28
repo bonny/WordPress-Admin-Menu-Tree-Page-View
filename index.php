@@ -476,7 +476,7 @@ function admin_menu_tree_page_view_add_page ( ) {
 		if ($wpml_lang) {
 			$editLink = add_query_arg("lang", $wpml_lang, $editLink);
 		}
-		echo $editLink;
+		echo base64_encode($editLink);
 	} else {
 		// fail, tell js
 		echo "0";
